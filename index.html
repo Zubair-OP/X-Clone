@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Twitter Clone</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.5;
+        }
+      }
+
+      .fade-in {
+        animation: fadeIn 0.5s ease-out;
+      }
+
+      .hover-scale {
+        transition: transform 0.2s ease-in-out;
+      }
+
+      .hover-scale:hover {
+        transform: scale(1.05);
+      }
+
+      .glass-effect {
+        backdrop-filter: blur(10px);
+        background: rgba(0, 0, 0, 0.5);
+      }
+
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: #1f2937;
+      }
+
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #4b5563;
+        border-radius: 3px;
+      }
+
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #6b7280;
+      }
+
+      /* Custom responsive button styles */
+      .responsive-btn {
+        min-width: 44px !important;
+        min-height: 44px !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .nav-item {
+        min-width: 44px !important;
+        min-height: 44px !important;
+      }
+
+      .action-btn {
+        min-width: 36px !important;
+        min-height: 36px !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .post-btn {
+        min-width: 44px !important;
+        min-height: 44px !important;
+        padding: 8px 16px !important;
+      }
+
+      .mobile-nav-btn {
+        min-width: 48px !important;
+        min-height: 48px !important;
+        padding: 12px !important;
+      }
+
+      /* Specific breakpoints for better control */
+      @media (min-width: 640px) and (max-width: 768px) {
+        .responsive-btn {
+          min-width: 48px !important;
+          min-height: 48px !important;
+          padding: 10px !important;
+        }
+
+        .nav-item {
+          padding: 10px 12px !important;
+        }
+
+        .action-btn {
+          min-width: 40px !important;
+          min-height: 40px !important;
+          padding: 8px !important;
+        }
+
+        .post-btn {
+          padding: 10px 20px !important;
+        }
+      }
+
+      @media (max-width: 639px) {
+        .responsive-btn {
+          min-width: 44px !important;
+          min-height: 44px !important;
+        }
+
+        .action-btn {
+          min-width: 36px !important;
+          min-height: 36px !important;
+          padding: 6px !important;
+          margin: 0 1px !important;
+        }
+
+        .nav-item {
+          padding: 8px 10px !important;
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-gray-950 text-white">
+    <div class="flex min-h-screen max-w-7xl mx-auto">
+      <div
+        class="fixed lg:sticky top-0 left-0 lg:left-auto w-16 lg:w-64 xl:w-72 h-screen bg-gray-950 border-r border-gray-800 z-50 flex flex-col"
+      >
+        <div class="p-3 sm:p-4 flex justify-center lg:justify-start">
+          <img
+            class="w-7 h-7 sm:w-8 sm:h-8 lg:w-10 lg:h-10 hover-scale cursor-pointer"
+            src="https://abs.twimg.com/favicons/twitter.3.ico"
+            alt="Logo"
+          />
+        </div>
+
+        <nav class="flex-1 px-1 sm:px-2 lg:px-4">
+          <div class="space-y-1 sm:space-y-2">
+            <div
+              class="nav-item responsive-btn flex justify-start rounded-full hover:bg-gray-900 cursor-pointer transition-all duration-200 group"
+            >
+              <i class="ri-home-2-fill text-lg sm:text-xl text-blue-500"></i>
+              <span
+                class="hidden lg:block ml-3 sm:ml-4 text-base sm:text-lg font-medium"
+                >Home</span
+              >
+            </div>
+            <div
+              class="nav-item responsive-btn flex justify-start rounded-full hover:bg-gray-900 cursor-pointer transition-all duration-200 group"
+            >
+              <i class="ri-search-line text-lg sm:text-xl"></i>
+              <span class="hidden lg:block ml-3 sm:ml-4 text-base sm:text-lg"
+                >Explore</span
+              >
+            </div>
+            <div
+              class="nav-item responsive-btn flex justify-start rounded-full hover:bg-gray-900 cursor-pointer transition-all duration-200 group relative"
+            >
+              <i class="ri-notification-2-line text-lg sm:text-xl"></i>
+              <span class="hidden lg:block ml-3 sm:ml-4 text-base sm:text-lg"
+                >Notifications</span
+              >
+              <div
+                class="absolute -top-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 bg-blue-500 rounded-full flex items-center justify-center text-xs font-bold"
+              >
+                3
+              </div>
+            </div>
+            <div
+              class="nav-item responsive-btn flex justify-start rounded-full hover:bg-gray-900 cursor-pointer transition-all duration-200 group"
+            >
+              <i class="ri-mail-line text-lg sm:text-xl"></i>
+              <span class="hidden lg:block ml-3 sm:ml-4 text-base sm:text-lg"
+                >Messages</span
+              >
+            </div>
+            <div
+              class="nav-item responsive-btn flex justify-start rounded-full hover:bg-gray-900 cursor-pointer transition-all duration-200 group"
+            >
+              <i class="ri-bookmark-line text-lg sm:text-xl"></i>
+              <span class="hidden lg:block ml-3 sm:ml-4 text-base sm:text-lg"
+                >Bookmarks</span
+              >
+            </div>
+            <div
+              class="nav-item responsive-btn flex justify-start rounded-full hover:bg-gray-900 cursor-pointer transition-all duration-200 group"
+            >
+              <i class="ri-user-line text-lg sm:text-xl"></i>
+              <span class="hidden lg:block ml-3 sm:ml-4 text-base sm:text-lg"
+                >Profile</span
+              >
+            </div>
+            <div
+              class="nav-item responsive-btn flex justify-start rounded-full hover:bg-gray-900 cursor-pointer transition-all duration-200 group"
+            >
+              <i class="ri-more-line text-lg sm:text-xl"></i>
+              <span class="hidden lg:block ml-3 sm:ml-4 text-base sm:text-lg"
+                >More</span
+              >
+            </div>
+          </div>
+
+          <div class="mt-6 sm:mt-8 px-1 sm:px-0">
+            <button
+              class="post-btn responsive-btn w-full lg:w-auto bg-white hover:bg-blue-600 text-black font-bold rounded-full transition-all duration-200 hover-scale flex items-center justify-center my-2"
+            >
+              <i class="ri-add-line text-lg sm:text-xl lg:hidden"></i>
+              <span class="hidden lg:block text-sm sm:text-base">Post</span>
+            </button>
+          </div>
+        </nav>
+
+        <div class="p-2 sm:p-4 border-t border-gray-800">
+          <div
+            class="flex items-center space-x-2 sm:space-x-3 hover:bg-gray-900 p-1 sm:p-2 rounded-full cursor-pointer transition-all duration-200 responsive-btn"
+          >
+            <img
+              class="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-gray-700"
+              src="https://pbs.twimg.com/profile_images/1954269047756926976/DYeFKMD8_x96.jpg"
+              alt="Profile"
+            />
+            <div class="hidden lg:block flex-1">
+              <p class="font-medium text-sm sm:text-base">Muhammad Zubair</p>
+              <p class="text-gray-400 text-xs sm:text-sm">@Zubair786</p>
+            </div>
+            <i class="ri-more-line text-gray-400 hidden lg:block"></i>
+          </div>
+        </div>
+      </div>
+
+
+      <div
+        class="flex-1 ml-16 lg:ml-0 border-x border-gray-800 min-h-screen custom-scrollbar overflow-y-auto"
+      >
+        <div
+          class="sticky top-0 bg-gray-950/80 glass-effect border-b border-gray-800 z-40"
+        >
+          <div class="flex items-center justify-between p-3 sm:p-4">
+            <h1 class="text-lg sm:text-xl font-bold">Home</h1>
+            <i
+              class="ri-settings-3-line text-lg sm:text-xl cursor-pointer hover:text-blue-500 transition-colors p-2 rounded-full hover:bg-gray-900 responsive-btn"
+            ></i>
+          </div>
+          <div class="flex border-b border-gray-800">
+            <div
+              class="flex-1 text-center py-3 sm:py-4 font-medium border-b-2 border-blue-500 text-blue-500 cursor-pointer text-sm sm:text-base"
+            >
+              For you
+            </div>
+            <div
+              class="flex-1 text-center py-3 sm:py-4 font-medium text-gray-500 hover:text-white cursor-pointer transition-colors text-sm sm:text-base"
+            >
+              Following
+            </div>
+          </div>
+        </div>
+        <div class="border-b border-gray-800 p-3 sm:p-4 fade-in">
+          <div class="flex space-x-3 sm:space-x-4">
+            <img
+              class="w-10 h-10 sm:w-12 sm:h-12 rounded-full"
+              src="https://pbs.twimg.com/profile_images/1954269047756926976/DYeFKMD8_x96.jpg"
+              alt="Your avatar"
+            />
+            <div class="flex-1">
+              <textarea
+                class="w-full bg-transparent text-lg sm:text-xl placeholder-gray-500 resize-none outline-none"
+                rows="3"
+                placeholder="What's happening?"
+              ></textarea>
+
+              <div class="flex items-center justify-between mt-3 sm:mt-4">
+                <div class="flex space-x-1 sm:space-x-2 text-blue-500">
+                  <i
+                    class="ri-image-line text-lg sm:text-xl cursor-pointer hover:bg-blue-500/20 p-2 rounded-full transition-all responsive-btn"
+                  ></i>
+                  <i
+                    class="ri-file-gif-line text-lg sm:text-xl cursor-pointer hover:bg-blue-500/20 p-2 rounded-full transition-all responsive-btn"
+                  ></i>
+                  <i
+                    class="ri-bar-chart-line text-lg sm:text-xl cursor-pointer hover:bg-blue-500/20 p-2 rounded-full transition-all responsive-btn"
+                  ></i>
+                  <i
+                    class="ri-emotion-line text-lg sm:text-xl cursor-pointer hover:bg-blue-500/20 p-2 rounded-full transition-all responsive-btn"
+                  ></i>
+                  <i
+                    class="ri-calendar-line text-lg sm:text-xl cursor-pointer hover:bg-blue-500/20 p-2 rounded-full transition-all responsive-btn"
+                  ></i>
+                </div>
+
+                <button
+                  class="post-btn responsive-btn bg-white hover:bg-blue-600 text-black font-bold rounded-full transition-all hover-scale text-sm sm:text-base"
+                >
+                  Post
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="divide-y divide-gray-800">
+          <!-- Tweet 1 -->
+          <article
+            class="p-3 sm:p-4 hover:bg-gray-950/50 cursor-pointer transition-all fade-in"
+          >
+            <div class="flex space-x-3">
+              <img
+                src="https://randomuser.me/api/portraits/women/44.jpg"
+                class="w-10 h-10 sm:w-12 sm:h-12 rounded-full"
+                alt="User avatar"
+              />
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center space-x-1 sm:space-x-2 mb-1">
+                  <p class="font-bold text-white text-sm sm:text-base">
+                    Jane Smith
+                  </p>
+                  <i class="ri-verified-badge-fill text-blue-500 text-sm"></i>
+                  <p class="text-gray-500 text-xs sm:text-sm">@janesmith</p>
+                  <span class="text-gray-500 text-xs sm:text-sm">·</span>
+                  <p class="text-gray-500 text-xs sm:text-sm">2h</p>
+                </div>
+                <p class="text-white mb-3 leading-relaxed text-sm sm:text-base">
+                  Excited to share my new blog post on AI trends in 2025 🚀 The
+                  future of artificial intelligence is looking incredibly
+                  promising!
+                </p>
+                <div
+                  class="tweet-actions w-full flex items-center justify-between max-w-xs sm:max-w-md text-gray-500"
+                >
+                  <div
+                    class="flex items-center  space-x-1 hover:text-blue-500 cursor-pointer group"
+                  >
+                    <div
+                      class="action-btn rounded-full group-hover:bg-blue-500/20 transition-all"
+                    >
+                      <i class="ri-chat-3-line text-sm sm:text-base"></i>
+                    </div>
+                    <span class="text-xs sm:text-sm">12</span>
+                  </div>
+                  <div
+                    class="flex items-center space-x-1 hover:text-green-500 cursor-pointer group"
+                  >
+                    <div
+                      class="action-btn rounded-full group-hover:bg-green-500/20 transition-all"
+                    >
+                      <i class="ri-repeat-line text-sm sm:text-base"></i>
+                    </div>
+                    <span class="text-xs sm:text-sm">45</span>
+                  </div>
+                  <div
+                    class="flex items-center space-x-1 hover:text-red-500 cursor-pointer group"
+                  >
+                    <div
+                      class="action-btn rounded-full group-hover:bg-red-500/20 transition-all"
+                    >
+                      <i class="ri-heart-line text-sm sm:text-base"></i>
+                    </div>
+                    <span class="text-xs sm:text-sm">210</span>
+                  </div>
+                  <div
+                    class="flex items-center space-x-1 hover:text-blue-500 cursor-pointer group"
+                  >
+                    <div
+                      class="action-btn rounded-full group-hover:bg-blue-500/20 transition-all"
+                    >
+                      <i class="ri-share-line text-sm sm:text-base"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+          <!-- Tweet 2 -->
+          <article
+            class="p-3 sm:p-4 hover:bg-gray-950/50 cursor-pointer transition-all fade-in"
+          >
+            <div class="flex space-x-3">
+              <img
+                src="https://randomuser.me/api/portraits/men/32.jpg"
+                class="w-10 h-10 sm:w-12 sm:h-12 rounded-full"
+                alt="User avatar"
+              />
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center space-x-1 sm:space-x-2 mb-1">
+                  <p class="font-bold text-white text-sm sm:text-base">
+                    Tech Updates
+                  </p>
+                  <p class="text-gray-500 text-xs sm:text-sm">@technews</p>
+                  <span class="text-gray-500 text-xs sm:text-sm">·</span>
+                  <p class="text-gray-500 text-xs sm:text-sm">5h</p>
+                </div>
+                <p class="text-white mb-3 leading-relaxed text-sm sm:text-base">
+                  🚨 Breaking: New smartphone announced with holographic
+                  display! This could revolutionize how we interact with mobile
+                  devices.
+                </p>
+
+                <div
+                  class="tweet-actions flex items-center justify-between max-w-xs sm:max-w-md text-gray-500"
+                >
+                  <div
+                    class="flex items-center space-x-1 hover:text-blue-500 cursor-pointer group"
+                  >
+                    <div
+                      class="action-btn rounded-full group-hover:bg-blue-500/20 transition-all"
+                    >
+                      <i class="ri-chat-3-line text-sm sm:text-base"></i>
+                    </div>
+                    <span class="text-xs sm:text-sm">89</span>
+                  </div>
+                  <div
+                    class="flex items-center space-x-1 hover:text-green-500 cursor-pointer group"
+                  >
+                    <div
+                      class="action-btn rounded-full group-hover:bg-green-500/20 transition-all"
+                    >
+                      <i class="ri-repeat-line text-sm sm:text-base"></i>
+                    </div>
+                    <span class="text-xs sm:text-sm">340</span>
+                  </div>
+                  <div
+                    class="flex items-center space-x-1 hover:text-red-500 cursor-pointer group"
+                  >
+                    <div
+                      class="action-btn rounded-full group-hover:bg-red-500/20 transition-all"
+                    >
+                      <i class="ri-heart-line text-sm sm:text-base"></i>
+                    </div>
+                    <span class="text-xs sm:text-sm">1.5K</span>
+                  </div>
+                  <div
+                    class="flex items-center space-x-1 hover:text-blue-500 cursor-pointer group"
+                  >
+                    <div
+                      class="action-btn rounded-full group-hover:bg-blue-500/20 transition-all"
+                    >
+                      <i class="ri-share-line text-sm sm:text-base"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+          <article
+            class="p-3 sm:p-4 hover:bg-gray-950/50 cursor-pointer transition-all fade-in"
+          >
+            <div class="flex space-x-3">
+              <img
+                src="https://pbs.twimg.com/profile_images/1707086583936020480/tjaVKioU_x96.jpg"
+                class="w-10 h-10 sm:w-12 sm:h-12 rounded-full"
+                alt="User avatar"
+              />
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center space-x-1 sm:space-x-2 mb-1">
+                  <p class="font-bold text-white text-sm sm:text-base">
+                    News Today
+                  </p>
+                  <p class="text-gray-500 text-xs sm:text-sm">@newstoday</p>
+                  <span class="text-gray-500 text-xs sm:text-sm">·</span>
+                  <p class="text-gray-500 text-xs sm:text-sm">8h</p>
+                </div>
+                <p class="text-white mb-3 leading-relaxed text-sm sm:text-base">
+                  <span class="text-blue-500 font-bold">#BREAKING:</span>
+                  Record number of Pakistani national flags sold online in
+                  Bangladesh for upcoming 14th August celebrations. Unity across
+                  borders!
+                </p>
+
+                <div
+                  class="mb-3 rounded-2xl overflow-hidden border border-gray-700"
+                >
+                  <img
+                    src="https://pbs.twimg.com/media/Gx1U_aGX0AAel_e?format=jpg&name=small"
+                    alt="Pakistani flags"
+                    class="w-full h-48 sm:h-64 md:h-80 object-cover hover-scale"
+                  />
+                </div>
+
+                <div
+                  class="tweet-actions flex items-center justify-between max-w-xs sm:max-w-md text-gray-500"
+                >
+                  <div
+                    class="flex items-center space-x-1 hover:text-blue-500 cursor-pointer group"
+                  >
+                    <div
+                      class="action-btn rounded-full group-hover:bg-blue-500/20 transition-all"
+                    >
+                      <i class="ri-chat-3-line text-sm sm:text-base"></i>
+                    </div>
+                    <span class="text-xs sm:text-sm">245</span>
+                  </div>
+                  <div
+                    class="flex items-center space-x-1 hover:text-green-500 cursor-pointer group"
+                  >
+                    <div
+                      class="action-btn rounded-full group-hover:bg-green-500/20 transition-all"
+                    >
+                      <i class="ri-repeat-line text-sm sm:text-base"></i>
+                    </div>
+                    <span class="text-xs sm:text-sm">892</span>
+                  </div>
+                  <div
+                    class="flex items-center space-x-1 hover:text-red-500 cursor-pointer group"
+                  >
+                    <div
+                      class="action-btn rounded-full group-hover:bg-red-500/20 transition-all"
+                    >
+                      <i class="ri-heart-line text-sm sm:text-base"></i>
+                    </div>
+                    <span class="text-xs sm:text-sm">2.1K</span>
+                  </div>
+                  <div
+                    class="flex items-center space-x-1 hover:text-yellow-500 cursor-pointer group"
+                  >
+                    <div
+                      class="action-btn rounded-full group-hover:bg-yellow-500/20 transition-all"
+                    >
+                      <i
+                        class="ri-bar-chart-line text-sm sm:text-base cursor-pointer"
+                      ></i>
+                    </div>
+                    <span class="text-xs sm:text-sm">3.1K</span>
+                  </div>
+                  <div
+                    class="flex items-center space-x-1 hover:text-blue-500 cursor-pointer group"
+                  >
+                    <div
+                      class="action-btn rounded-full group-hover:bg-blue-500/20 transition-all"
+                    >
+                      <i class="ri-share-line text-sm sm:text-base"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <div
+        class="hidden xl:block w-80 p-4 space-y-6 sticky top-0 h-screen overflow-y-auto custom-scrollbar"
+      >
+        <div class="relative">
+          <i
+            class="ri-search-line absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500"
+          ></i>
+          <input
+            type="text"
+            class="w-full bg-gray-900 text-white py-3 pl-12 pr-4 rounded-full border border-gray-700 focus:border-blue-500 focus:outline-none transition-all"
+            placeholder="Search Twitter"
+          />
+        </div>
+
+       
+        <div class="bg-gray-900 rounded-2xl p-6 border border-gray-800 fade-in">
+          <h2 class="text-xl font-bold mb-2">Subscribe to Premium</h2>
+          <p class="text-gray-400 text-sm mb-4 leading-relaxed">
+            Subscribe to unlock new features and if eligible, receive a share of
+            revenue.
+          </p>
+          <button
+            class="bg-white hover:bg-blue-600 text-black font-bold py-2 px-6 rounded-full transition-all hover-scale"
+          >
+            Subscribe
+          </button>
+        </div>
+
+        <!-- Trends -->
+        <div class="bg-gray-900 rounded-2xl p-6 border border-gray-800 fade-in">
+          <h2 class="text-xl font-bold mb-4">What's happening</h2>
+          <div class="space-y-4">
+            <div
+              class="hover:bg-gray-800 p-2 rounded-lg cursor-pointer transition-all"
+            >
+              <p class="text-gray-500 text-sm">Trending in Technology</p>
+              <p class="font-bold text-lg">AI 2025</p>
+              <p class="text-gray-500 text-sm">120K posts</p>
+            </div>
+            <div
+              class="hover:bg-gray-800 p-2 rounded-lg cursor-pointer transition-all"
+            >
+              <p class="text-gray-500 text-sm">Sports · Trending</p>
+              <p class="font-bold text-lg">World Cup Final</p>
+              <p class="text-gray-500 text-sm">90K posts</p>
+            </div>
+            <div
+              class="hover:bg-gray-800 p-2 rounded-lg cursor-pointer transition-all"
+            >
+              <p class="text-gray-500 text-sm">Entertainment · Trending</p>
+              <p class="font-bold text-lg">#MovieNight</p>
+              <p class="text-gray-500 text-sm">45K posts</p>
+            </div>
+          </div>
+          <button
+            class="text-blue-500 hover:text-blue-400 mt-4 text-sm transition-colors"
+          >
+            Show more
+          </button>
+        </div>
+
+        <div class="bg-gray-900 rounded-2xl p-6 border border-gray-800 fade-in">
+          <h2 class="text-xl font-bold mb-4">Who to follow</h2>
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-3">
+                <img
+                  src="https://randomuser.me/api/portraits/women/12.jpg"
+                  class="w-12 h-12 rounded-full"
+                  alt="User to follow"
+                />
+                <div>
+                  <div class="flex items-center space-x-1">
+                    <p class="font-bold">Sarah Lee</p>
+                    <i class="ri-verified-badge-fill text-blue-500 text-sm"></i>
+                  </div>
+                  <p class="text-gray-500 text-sm">@sarahlee</p>
+                </div>
+              </div>
+              <button
+                class="bg-white hover:bg-gray-200 text-black font-bold py-2 px-4 rounded-full transition-all hover-scale text-sm"
+              >
+                Follow
+              </button>
+            </div>
+
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-3">
+                <img
+                  src="https://randomuser.me/api/portraits/men/51.jpg"
+                  class="w-12 h-12 rounded-full"
+                  alt="User to follow"
+                />
+                <div>
+                  <p class="font-bold">Mark Wilson</p>
+                  <p class="text-gray-500 text-sm">@markwilson</p>
+                </div>
+              </div>
+              <button
+                class="bg-white hover:bg-gray-200 text-black font-bold py-2 px-4 rounded-full transition-all hover-scale text-sm"
+              >
+                Follow
+              </button>
+            </div>
+          </div>
+          <button
+            class="text-blue-500 hover:text-blue-400 mt-4 text-sm transition-colors"
+          >
+            Show more
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Bottom Navigation -->
+    <div
+      class="lg:hidden fixed bottom-0 left-0 right-0 bg-gray-950 border-t border-gray-800 px-2 py-1 z-50"
+    >
+      <div class="flex justify-around items-center">
+        <div
+          class="mobile-nav-btn flex items-center justify-center rounded-full hover:bg-gray-900 transition-all responsive-btn"
+        >
+          <i class="ri-home-2-fill text-xl sm:text-2xl text-blue-500"></i>
+        </div>
+        <div
+          class="mobile-nav-btn flex items-center justify-center rounded-full hover:bg-gray-900 transition-all responsive-btn relative"
+        >
+          <i class="ri-search-line text-xl sm:text-2xl text-gray-500"></i>
+        </div>
+        <div
+          class="mobile-nav-btn flex items-center justify-center rounded-full hover:bg-gray-900 transition-all responsive-btn relative"
+        >
+          <i
+            class="ri-notification-2-line text-xl sm:text-2xl text-gray-500"
+          ></i>
+          <div
+            class="absolute -top-1 -right-1 w-4 h-4 bg-blue-500 rounded-full flex items-center justify-center text-xs font-bold"
+          >
+            3
+          </div>
+        </div>
+        <div
+          class="mobile-nav-btn flex items-center justify-center rounded-full hover:bg-gray-900 transition-all responsive-btn"
+        >
+          <i class="ri-mail-line text-xl sm:text-2xl text-gray-500"></i>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
